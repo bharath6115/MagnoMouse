@@ -14,21 +14,42 @@
 </head>
 
 <body>
-  <main>
-    <h1>Lets play a game! </h1>
-    <h3>In this game, you have to find the buttons which dont want to be touched!</h3>
-    <h4>Hover over each button, if a button doesnt want to be touched then you will be alerted. Then report that number to the "I found one" button. Report all the buttons to win.
-        Note that, each button has 0.1% chance to want to be touched.</h4>
+  <div id="init">
+
+    <h1>Welcome to the MagnoMouse game!</h1>
+    <h4>In this game, your mouse behaves like a Magnet! You have to determine the location of buttons which exhibit
+      metallic property.</h4>
+
+    <form action="/">
+      <label for="btncnt">Enter the number of buttons:</label>
+      <input type="number" name="btncnt" id="btncnt">
+      <br>
+      <input type="radio" name="difficulty" id="easy" value="easy">
+      <label for="easy">Easy</label>
+      <input type="radio" name="difficulty" id="med" value="med">
+      <label for="med">Medium</label>
+      <input type="radio" name="difficulty" id="hard" value="hard">
+      <label for="hard">Hard</label>
+      <br>
+      <button id="sbmt">Submit</button>
+    </form>
+  </div>
+  <div id="scnd" style="display:none">
+
+    <h4>Hover over each button, if a button shows metallic nature then you will be alerted. Then report that number
+      to the "I found one" button. Report all the buttons to win.
+      Note that, each button has 0.1% chance to be metallic.
+    </h4>
 
     <div id="container">
     </div>
-  </main>
-  <section id="foot">
-    <button id="found">I found one!</button>
-    <button id="more">How many more?</button>
-    <button id="submit">Submit</button>
-    <button id="quit">Quit!</button>
-  </section>
+    <section id="foot">
+      <button id="found">I found one!</button>
+      <button id="more">How many more?</button>
+      <button id="submit">Submit</button>
+      <button id="quit">Quit!</button>
+    </section>
+  </div>
   <script src="TouchingGame.js"></script>
 </body>
 
