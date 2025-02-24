@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MagnoMouse</title>
+  <link rel="icon" href="potentialLogo.png">
   <link rel="stylesheet" href="MagnoMouse.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,6 +15,7 @@
 </head>
 
 <body>
+  <!-- Starting page -->
   <div id="init">
 
     <h1>Welcome to the MagnoMouse game!</h1>
@@ -21,19 +23,23 @@
       metallic property.</h4>
 
     <form action="/">
-      <label for="btncnt">Enter the number of buttons:</label>
-      <input type="number" name="btncnt" id="btncnt">
-      <br>
-      <input type="radio" name="difficulty" id="easy" value="easy">
-      <label for="easy">Easy</label>
-      <input type="radio" name="difficulty" id="med" value="med">
-      <label for="med">Medium</label>
-      <input type="radio" name="difficulty" id="hard" value="hard">
-      <label for="hard">Hard</label>
-      <br>
+      <div class="input">  
+        <label for="btncnt">Enter the number of buttons:</label>
+        <input type="number" name="btncnt" id="btncnt" required>
+      </div>
+      <div class="input">
+      <span>Select Difficulty:</span>
+        <input type="radio" name="difficulty" id="easy" value="easy" required>
+        <label for="easy">Easy</label>
+        <input type="radio" name="difficulty" id="med" value="med">
+        <label for="med">Medium</label>
+        <input type="radio" name="difficulty" id="hard" value="hard">
+        <label for="hard">Hard</label>
+      </div>
       <button id="sbmt">Submit</button>
     </form>
   </div>
+  <!-- The part after continuing -->
   <div id="scnd" style="display:none">
 
     <h4>Hover over each button, if a button shows metallic nature then you will be alerted. Then report that number

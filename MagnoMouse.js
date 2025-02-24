@@ -1,116 +1,144 @@
-const form = document.querySelector("form");
-const radio = document.querySelectorAll('input[name="difficulty"]');
 const init = document.querySelector("#init");
 const scnd = document.querySelector("#scnd");
+const radio = document.querySelectorAll('input[name="difficulty"]');
+const form = document.querySelector("form");
+const inputButton = document.querySelector("#sbmt");
+const block = document.querySelector("#container");
+let buttons;
 let tot = 0;
 let mode = ""
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    tot = parseInt(form[0].value);
-    for (let btn of radio) {
-        if (btn.checked) {
-            mode = btn.value;
-            break;
-        }
-    }
-    form[0].value = '';
-    init.setAttribute("style", "display:none");
-    scnd.setAttribute("style", "display:block");
+const ans = [];
+
+async function WaitForInput(){
+    return new Promise((resolve,reject)=>{
+        sbmt.addEventListener("click", ()=>resolve());
+    });
+}
+console.log("Script Loaded!");
+async function main(){
+
+    //REMOVE ACTION FOR BUTTON BEFORE HITTING SUBMIT, i.e AFTER LOADING SCRIPT
+    form.addEventListener("submit",(e)=>{
+        e.preventDefault();
+    })
+    await WaitForInput();
+    // console.log("Hello after await");
+    init.style.display = "none";
+    scnd.style.display = "block";
 
 
-    const block = document.querySelector("#container");
-    let max = tot / 10;
-    let cnt = 0;
+    //GET INPUT
+    tot = parseInt(form.btncnt.value);
+    if(form.easy.checked) mode = "easy";
+    else if(form.med.checked) mode = "med";
+    else mode = "hard";
 
-    const ans = [];
+    //DESIGN FOR EACH MODE:
 
-    //  FOR EASY MODE
-    if (mode === "easy") {
-        for (let i = 0; i < tot; i++) {
+    if(mode === "easy"){
+        for(let i=0;i<tot;i++){
             const div = document.createElement("div");
             const btn = document.createElement('button');
-            btn.innerText = `Button ${i + 1}`;
-
+            btn.innerText = `Button ${i+1}`;
+    
             let x = Math.random();
-
-            if (cnt < max && x < 0.1) {
-
-                btn.onmouseenter = function () {
-                    alert("I am metallic.");
+    
+            if(x < 0.1){
+    
+                btn.onmouseenter = function(){
+                    alert("I am magnetic.");
                 }
                 div.append(btn);
-                cnt++;
-                ans.push(i + 1);
-
-            } else {
+                ans.push(i+1);
+    
+            }else{
                 div.append(btn);
             }
-
+    
             block.append(div);
         }
+    }else if(mode === "med"){
+        console.log("In med");
+        for(let i=0;i<tot;i++){
+            const div = document.createElement("div");
+            const btn = document.createElement('button');
+            btn.innerText = `Button ${i+1}`;
+    
+            let x = Math.random();
+    
+            if(x < 0.1){
+                let tl = Math.floor((Math.random()+1) * 1001);
+                btn.onmouseenter = function(){
+                    setTimeout(()=>{
+                        alert("I am magnetic.");
+                    },tl);
+                }
+                div.append(btn);
+                ans.push(i+1);
+    
+            }else{
+                div.append(btn);
+            }
+    
+            block.append(div);
+        }
+    }else{
+
     }
 
-    //  FOR MEDIUM MODE
-    if(mode==="med"){
-
-    }
-
-    //  FOR HARD MODE
-    if(mode==="hard"){
-        
-    }
-    // console.log(...ans);
-    // console.log("cnt",cnt);
-
-    //FOOTER PART
-    const buttons = document.querySelectorAll("button");
+    
+    //FOOTER PART, keep in so that buttons will actually read all the newly generated buttons.
+    buttons = document.querySelectorAll("button");
     const found = document.querySelector("#found");
     const more = document.querySelector("#more");
     const submit = document.querySelector("#submit");
     const quit = document.querySelector("#quit");
 
     found.onclick = function () {
-        let num = parseInt(prompt("Enter the button you think is metallic."))
-        let index = ans.indexOf(num);
-        console.log("num", num, "index", index);
-        if (index !== -1) {
+    let num = parseInt(prompt("Enter the button you think is metallic."))
+    let index = ans.indexOf(num);
+    console.log("num", num, "index", index);
+    if (index !== -1) {
 
-            buttons[num - 1].onmouseenter = null;
-
-            alert("Congrats, you found a metallic button.")
-            ans.splice(index, 1);
-        } else {
-            alert("That button is not metallic.")
-        }
-    }
-
-    more.onclick = function () {
-        alert(`${ans.length} buttons are left!`)
-    }
-
-    submit.onclick = function () {
+        buttons[num].onmouseenter = null;   //only num and not num-1 because of sbmt button at first.
+        console.log("Nullified ability.");
         
-        if (ans.length == 0) {
-            //add homepage function
-            alert("Congrats! You found out all the buttons!");
-        } else {
-            alert(`There are still ${ans.length} buttons left!`);
-        }
+        alert("Congrats, you found a metallic button.")
+        ans.splice(index, 1);
+    } else {
+        alert("That button is not metallic.")
     }
+}
+
+more.onclick = function () {
+    alert(`${ans.length} buttons are left!`)
+}
+
+submit.onclick = function () {
     
-    //add homepage function
-    quit.onclick = function () {
-
-        if (ans.length === 0) {
-            alert("You already finished the game!");
-        } else {
-            alert("Okay. Quit Game.");
-            for (let i = 0; i < ans.length; i++) {
-                buttons[ans[i] - 1].onmouseenter = null;
-            }
-            ans.splice(0, ans.length);
-
-            //can also disable clicks for all buttons.
-        }
+    if (ans.length == 0) {
+        //add homepage function
+        alert("Congrats! You found out all the buttons!");
+    } else {
+        alert(`There are still ${ans.length} buttons left!`);
     }
-});
+}
+
+//add homepage function
+quit.onclick = function () {
+    
+    if (ans.length === 0) {
+        alert("You already finished the game!");
+    } else {
+        alert("Okay. Quit Game.");
+        for (let i = 0; i < ans.length; i++) {
+            buttons[ans[i]].onmouseenter = null;
+        }
+        ans.splice(0, ans.length);
+        
+        //can also disable clicks for all buttons.
+    }
+}
+}
+
+main();
