@@ -11,7 +11,16 @@ const ans = [];
 
 async function WaitForInput() {
     return new Promise((resolve, reject) => {
-        sbmt.addEventListener("click", () => resolve());
+        
+        sbmt.addEventListener("click", () => {
+            if(!form[0].value || form[0].value < 0){
+                alert("Enter a positive number!");
+            }else 
+            if(!(form.easy.checked || form.med.checked ||form.hard.checked)){
+                alert("Choose a difficulty!");
+            }else
+            resolve();
+        });
     });
 }
 console.log("Script Loaded!");
