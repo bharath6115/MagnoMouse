@@ -22,22 +22,45 @@
     <h4>In this game, your mouse behaves like a Magnet! You have to determine the location of buttons which exhibit
       metallic property.</h4>
 
-    <form action="/">
-      <div class="input">  
-        <label for="btncnt">Enter the number of buttons:</label>
-        <input type="number" name="btncnt" id="btncnt" required>
+    <div class="container">
+
+      <div class="seven">
+
+        <form action="/">
+          <div class="input">
+            <label for="btncnt">Enter the number of buttons:</label>
+            <input type="number" name="btncnt" id="btncnt" required>
+          </div>
+          <div class="input">
+            <span>Select Difficulty:</span>
+            <input type="radio" name="difficulty" id="easy" value="easy" required>
+            <label for="easy">Easy</label>
+            <input type="radio" name="difficulty" id="med" value="med">
+            <label for="med">Medium</label>
+            <input type="radio" name="difficulty" id="hard" value="hard">
+            <label for="hard">Hard</label>
+          </div>
+          <button id="sbmt">Submit</button>
+        </form>
       </div>
-      <div class="input">
-      <span>Select Difficulty:</span>
-        <input type="radio" name="difficulty" id="easy" value="easy" required>
-        <label for="easy">Easy</label>
-        <input type="radio" name="difficulty" id="med" value="med">
-        <label for="med">Medium</label>
-        <input type="radio" name="difficulty" id="hard" value="hard">
-        <label for="hard">Hard</label>
+      <div class="three">
+        <div><span style="font-weight: 500; display:block;">Easy:</span>
+          <div>
+            Buttons have response time of 0ms.
+          </div>
+        </div>
+        <div><span style="font-weight: 500; display:block;">Medium:</span>
+          <div>
+            Buttons have a minimum response time of 500ms, maximum begin 1000ms.
+          </div>
+        </div>
+        <div><span style="font-weight: 500; display:block;">Hard:</span>
+          <div>
+            Really hard.
+          </div>
+        </div>
       </div>
-      <button id="sbmt">Submit</button>
-    </form>
+    </div>
   </div>
   <!-- The part after continuing -->
   <div id="scnd" style="display:none">
