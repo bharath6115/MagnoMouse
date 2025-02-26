@@ -1,11 +1,81 @@
+/*
+RESET CSS
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1.3;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*RESET END HERE*/
+
+
+
 html{
     font-family: roboto, sans-serif;
     background-color: #8ecae6;
 }
-
+main{
+    text-align: center;
+    /* display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; */
+    border : 4px solid #003049;
+    border-radius: 15px;
+    margin:1.1vh;
+}
+form{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height:40vh;
+    width:60%;
+    background-color: #FAFAFF;
+    border: 2px solid black;
+    border-radius: 15px;
+}
 h1, h2,h3,h4, h5,h6{
     color: #003049;
     margin : 20px auto;
+    font-weight:800;
 }
 
 #init{
@@ -32,27 +102,6 @@ h1, h2,h3,h4, h5,h6{
     color:#003049;
 }
 
-form{
-    display:flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    height:40vh;
-    width:60%;
-    margin-top: 15vh;
-    background-color: #FAFAFF;
-    border: 2px solid black;
-    border-radius: 15px;
-}
-body{
-    text-align: center;
-    /* display:flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column; */
-    border : 4px solid #003049;
-    border-radius: 15px;
-}
 
 .temp{
     text-align:center;
@@ -91,7 +140,9 @@ button{
     width : 200px;
 }
 
+
 .container{
+    margin-top: 8vh;
     display: flex;
     width: 100%;
     height: 100vh;
@@ -110,8 +161,83 @@ button{
     justify-content: space-around;
     align-items: center;
     height:40vh;
-    /* width:60%; */
-    margin-top: 15vh;
     border: 2px solid black;
     border-radius: 15px;
+}
+
+#navbar{
+    height:7vh;
+    position:sticky;
+    top:0px;
+    padding: 0px;
+    background-color:#FAFAFF;
+    box-shadow: 0 7px 10px black;
+}
+.navcontainer{
+    width:100%;
+    height:100%;
+    padding:0;
+    display: flex;
+    align-items: center;
+}
+
+.nav25{
+    width:30%;
+    height:100%;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav50{
+    width:40%;
+    height:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#submit{
+    height:90%;
+    font-size: 120%;
+    margin:0px 10px;
+    background-color:#FAFAFF;
+    color: #003049;
+    font-weight: 700;
+    border: 3px solid #003049;
+    transition: 200ms;
+}
+#submit:hover{
+    background-color: #003049;
+    color: #FAFAFF;
+}
+
+#more{
+    font-size: 1.25em;
+    font-weight: 500;
+}
+
+#quit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:95%;
+    width: 30%;
+    transition: 200ms;
+    border: 3px solid #003049;
+    background-color: #003049;
+    color: #FAFAFF;
+    font-size: 1.2em;
+}
+
+#quit:hover{
+    background-color:#FAFAFF;
+    color: #003049;
+}
+
+#screen{
+    width: 20%;
+    height: 100%;
+    background-color: green;
 }

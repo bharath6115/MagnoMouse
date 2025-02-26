@@ -4,6 +4,9 @@ const radio = document.querySelectorAll('input[name="difficulty"]');
 const form = document.querySelector("form");
 const inputButton = document.querySelector("#sbmt");
 const block = document.querySelector("#container");
+const navbar = document.querySelector("#navbar");
+const more = document.querySelector("#more");
+
 let buttons;
 let tot = 0;
 let mode = ""
@@ -11,28 +14,41 @@ const ans = [];
 
 async function WaitForInput() {
     return new Promise((resolve, reject) => {
-        
+
         sbmt.addEventListener("click", () => {
-            if(!form[0].value || form[0].value < 0){
-                alert("Enter a positive number!");
-            }else 
-            if(!(form.easy.checked || form.med.checked ||form.hard.checked)){
-                alert("Choose a difficulty!");
-            }else
-            resolve();
+            if (!form[0].value || form[0].value < 0) {
+                // alert("Enter a positive number!");
+            } else
+                if (!(form.easy.checked || form.med.checked || form.hard.checked)) {
+                    // alert("Choose a difficulty!");
+                } else
+                    resolve();
         });
     });
 }
+
+function Warn() {
+    more.style.color = "red";
+    setTimeout(() => {
+        more.style.color = "black";
+    }, 500);
+}
+
+function Timer() {
+
+}
+
 console.log("Script Loaded!");
 
-function newGame(){
+function newGame() {
     init.style.display = "block";
     scnd.style.display = "none";
-    form.easy.checked=false;    form.med.checked=false;     form.hard.checked=false;
-    form.btncnt.value='none';
+    navbar.style.display = "none";
+    form.easy.checked = false; form.med.checked = false; form.hard.checked = false;
+    form.btncnt.value = 'none';
     const child = block.children;
     const len = child.length
-    for(let i=0;i<len;i++){
+    for (let i = 0; i < len; i++) {
         child[0].remove();
     }
     main();
@@ -48,6 +64,7 @@ async function main() {
     // console.log("Hello after await");
     init.style.display = "none";
     scnd.style.display = "block";
+    navbar.style.display = "block";
 
 
     //GET INPUT
@@ -58,7 +75,7 @@ async function main() {
 
     //DESIGN FOR EACH MODE:
 
-    if (mode === "easy") {
+    if (mode !== "hard") {
         for (let i = 0; i < tot; i++) {
             const div = document.createElement("div");
             const btn = document.createElement('button');
@@ -69,32 +86,14 @@ async function main() {
             if (x < 0.1) {
 
                 btn.onmouseenter = function () {
-                    alert("I am magnetic.");
-                }
-                div.append(btn);
-                ans.push(i + 1);
-
-            } else {
-                div.append(btn);
-            }
-
-            block.append(div);
-        }
-    } else if (mode === "med") {
-        console.log("In med");
-        for (let i = 0; i < tot; i++) {
-            const div = document.createElement("div");
-            const btn = document.createElement('button');
-            btn.innerText = `Button ${i + 1}`;
-
-            let x = Math.random();
-
-            if (x < 0.1) {
-                let tl = Math.floor((Math.random() + 1) * 1001);
-                btn.onmouseenter = function () {
-                    setTimeout(() => {
+                    if (mode === "easy")
                         alert("I am magnetic.");
-                    }, tl);
+                    else {
+                        let tl = Math.floor((Math.random() + 1) * 1001);
+                        setTimeout(() => {
+                            alert("I am magnetic.");
+                        }, tl);
+                    }
                 }
                 div.append(btn);
                 ans.push(i + 1);
@@ -106,14 +105,14 @@ async function main() {
             block.append(div);
         }
     } else {
-
+        
     }
+    
+    more.innerText = "Buttons Remaining: " + ans.length;
 
-
-    //FOOTER PART, keep in so that buttons will actually read all the newly generated buttons.
+    //NAVI PART, keep in so that buttons will actually read all the newly generated buttons.
     buttons = document.querySelectorAll("button");
     const found = document.querySelector("#found");
-    const more = document.querySelector("#more");
     const submit = document.querySelector("#submit");
     const quit = document.querySelector("#quit");
 
@@ -126,40 +125,28 @@ async function main() {
             buttons[num].onmouseenter = null;   //only num and not num-1 because of sbmt button at first.
             console.log("Nullified ability.");
 
-            alert("Congrats, you found a metallic button.")
+            alert("Congrats, you found a metallic button.");
             ans.splice(index, 1);
+            more.innerText = "Buttons Remaining: " + ans.length;
         } else {
             alert("That button is not metallic.")
         }
     }
 
-    more.onclick = function () {
-        alert(`${ans.length} buttons are left!`)
-    }
-
     submit.onclick = function () {
 
         if (ans.length == 0) {
-            alert("Congrats! You found out all the buttons!");
+            //add confetti type
             newGame();
         } else {
-            alert(`There are still ${ans.length} buttons left!`);
+            Warn();
+            setTimeout(() => Warn(), 700); //Warn twice to have better effect.
         }
     }
 
     quit.onclick = function () {
-
-        if (ans.length === 0) {
-            alert("You already finished the game!");
-            newGame();
-        } else {
-            alert("Okay. Quit Game.");
-            for (let i = 0; i < ans.length; i++) {
-                buttons[ans[i]].onmouseenter = null;
-            }
-            ans.splice(0, ans.length);
-            newGame();
-        }
+        ans.splice(0, ans.length);
+        newGame();
     }
 }
 
