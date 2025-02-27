@@ -31,7 +31,15 @@
       </div>
       <div class="nav40">
         <div class="textstyle">Attempts</div>
-        <div id="Timer" style="display:none"></div>
+        <div id="displayTime" style="display:none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-stopwatch"
+            viewBox="0 0 16 16">
+            <path d="M8.5 5.6a.5.5 0 1 0-1 0v2.9h-3a.5.5 0 0 0 0 1H8a.5.5 0 0 0 .5-.5z" />
+            <path
+              d="M6.5 1A.5.5 0 0 1 7 .5h2a.5.5 0 0 1 0 1v.57c1.36.196 2.594.78 3.584 1.64l.012-.013.354-.354-.354-.353a.5.5 0 0 1 .707-.708l1.414 1.415a.5.5 0 1 1-.707.707l-.353-.354-.354.354-.013.012A7 7 0 1 1 7 2.071V1.5a.5.5 0 0 1-.5-.5M8 3a6 6 0 1 0 .001 12A6 6 0 0 0 8 3" />
+          </svg>
+          <div id="Timer"></div>
+        </div>
         <div id="attempts"></div>
       </div>
       <div class="nav30">
@@ -73,19 +81,19 @@
           </form>
         </div>
         <div class="three">
-          <div><span style="font-weight: 500; display:block;">Easy:</span>
+          <div><span style="font-weight: 500; display:block;">Easy: (max 5 attempts)</span>
             <div>
               Buttons have response time of 0ms.
             </div>
           </div>
-          <div><span style="font-weight: 500; display:block;">Medium:</span>
+          <div><span style="font-weight: 500; display:block;">Medium: (max 5 attempts)</span>
             <div>
               Buttons have a minimum response time of 1000ms, maximum being 2000ms.
             </div>
           </div>
-          <div><span style="font-weight: 500; display:block;">Hard:</span>
+          <div><span style="font-weight: 500; display:block;">Hard: (max 3 attempts)</span>
             <div>
-              Really hard.
+              Same as medium difficulty but you must finish the game within a set time.
             </div>
           </div>
         </div>
@@ -93,8 +101,11 @@
     </div>
     <!-- The part after continuing -->
     <div id="scnd" style="display:none">
-      <h4>Hover over each button, if a button shows metallic nature then you will be alerted. Then report that number
-        to the "I found one" button. Report all the buttons to win.
+      <h4>Hover over each button, if a button shows metallic nature then the grey display above will turn <span
+          style="color:green">green</span>. Then click that button to select it. If the button is not metallic, then
+        upon clicking it, it will turn red and you will <span style="color: #e95656;">LOSE</span> a heart. Else, it will
+        turn green.
+        Identify all the metallic buttons before your hearts run out to win!
       </h4>
       <h5>Note: Each button has 0.1% chance to be metallic!</h5>
 

@@ -8,6 +8,7 @@ const navbar = document.querySelector("#navbar");
 const more = document.querySelector("#more");
 const screen = document.querySelector("#screen");
 const timer = document.querySelector("#Timer");
+const displayTime = document.querySelector("#displayTime")
 const attempts = document.querySelector("#attempts");
 const moveUp = document.querySelector(".textstyle");
 
@@ -15,6 +16,7 @@ let buttons;
 let lives;
 let tot = 0;
 let mode = ""
+let ID
 const ans = [];
 
 async function WaitForInput() {
@@ -47,19 +49,21 @@ function ScreenDisplay() {
 }
 
 
-function Timer() {
-    let time = 3602; //sec
-    const ID = setInterval(()=>{
+function Timer(tot) {
+    let time = tot*2.1; //sec
+    ID = setInterval(()=>{
         let hr = Math.floor(time/3600);
         let min = Math.floor((time%3600)/60);
-        let sec = time%60;
+        let sec = Math.floor(time%60);
         if(min < 10) min = `0${min}`;
         if(sec < 10) sec = `0${sec}`;
-        timer.innerText = `Time: ${hr}:${min}:${sec}`;
+        timer.innerText = `Time left: ${hr}:${min}:${sec}`;
         time--;
-        if(time===0){
+        if(time<=0){
+            //ADD The same thing as quit button and youwin thing. you get it dont you.
             alert("You failed.!!");
             clearInterval(ID);
+            newGame();
         }
     },1000);
 }
@@ -82,10 +86,12 @@ function newGame() {
     init.style.display = "block";
     scnd.style.display = "none";
     navbar.style.display = "none";
+    displayTime.style.display = "none";  clearInterval(ID);
     form.easy.checked = false; form.med.checked = false; form.hard.checked = false;
     form.btncnt.value = 'none';
     const child = block.children;
-    const len = child.length
+    const len = child.length;
+    moveUp.style.transform = `translateY(${0}vh)`;  //reset the Y displacement to 0.
     for (let i = 0; i < len; i++) {
         child[0].remove();
     }
@@ -93,6 +99,7 @@ function newGame() {
     for (let i = 0; i < livestot; i++) {
         lives[0].remove();
     }
+    ans.splice(0,ans.length);
     main();
 }
 
@@ -103,7 +110,6 @@ async function main() {
         e.preventDefault();
     })
     await WaitForInput();
-    // console.log("Hello after await");
     init.style.display = "none";
     scnd.style.display = "block";
     navbar.style.display = "block";
@@ -117,45 +123,50 @@ async function main() {
 
     //DESIGN FOR EACH MODE:
 
-    if (mode !== "hard") {
-        for (let i = 0; i < tot; i++) {
-            const div = document.createElement("div");
-            const btn = document.createElement('button');
-            btn.innerText = `Button ${i + 1}`;
+    
+    for (let i = 0; i < tot; i++) {
+        const div = document.createElement("div");
+        const btn = document.createElement('button');
+        btn.innerText = `Button ${i + 1}`;
 
-            let x = Math.random();
+        let x = Math.random();
 
-            if (x < 0.1) {
+        if (x < 0.1) {
 
-                btn.onmouseenter = function () {
-                    if (mode === "easy")
-                    ScreenDisplay();
-                    else {
-                        let tl = Math.floor((Math.random() + 1) * 1001);
-                        setTimeout(() => {
-                            ScreenDisplay();
-                        }, tl);
-                    }
+            btn.onmouseenter = function () {
+                if (mode === "easy")
+                ScreenDisplay();
+                else {
+                    let tl = Math.floor((Math.random() + 1) * 1001);
+                    setTimeout(() => {
+                        ScreenDisplay();
+                    }, tl);
                 }
-                div.append(btn);
-                ans.push(i + 1);
-
-            } else {
-                div.append(btn);
             }
+            div.append(btn);
+            ans.push(i + 1);
 
-            block.append(div);
+        } else {
+            div.append(btn);
         }
-        createLives(5);
-    } else {
+
+        block.append(div);
+    }
+    if(mode!=="hard") createLives(5);
+    else createLives(3);
+    if(mode === "hard"){
+        displayTime.style.display = "flex";
+        Timer(tot);
         //set timer display to block.
-        // Timer();
     }
 
+
+
+    //RENDERING THE GAME
     more.innerText = "Buttons Remaining: " + ans.length;
     setTimeout(()=>{
         moveUp.style.transform = `translateY(${-7}vh)`;
-    },400);
+    },1000);
 
 
     //NAVI PART, keep in so that buttons will actually read all the newly generated buttons.

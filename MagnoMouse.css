@@ -244,6 +244,18 @@ button{
     transition: 500ms;
 }
 
+#displayTime{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#Timer{
+    background-color: #FAFAFF;
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
 .textstyle:hover{
     transform:translateY(-7vh);
 }
