@@ -9,6 +9,7 @@ const more = document.querySelector("#more");
 const screen = document.querySelector("#screen");
 const timer = document.querySelector("#Timer");
 const attempts = document.querySelector("#attempts");
+const moveUp = document.querySelector(".textstyle");
 
 let buttons;
 let lives;
@@ -152,6 +153,10 @@ async function main() {
     }
 
     more.innerText = "Buttons Remaining: " + ans.length;
+    setTimeout(()=>{
+        moveUp.style.transform = `translateY(${-7}vh)`;
+    },400);
+
 
     //NAVI PART, keep in so that buttons will actually read all the newly generated buttons.
     buttons = document.querySelectorAll("#container button");

@@ -231,6 +231,23 @@ button{
     border-radius: 10px;
 }
 
+.textstyle{
+    width: 40%;
+    height:5.6vh;
+    background-color: #FAFAFF;
+    font-size: 2em;
+    font-weight: 600;
+    position: absolute;
+    top:0;
+    left:30%;
+    text-align: center;
+    transition: 500ms;
+}
+
+.textstyle:hover{
+    transform:translateY(-7vh);
+}
+
 .Life{
     padding:0;
 }
