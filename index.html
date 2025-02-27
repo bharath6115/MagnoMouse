@@ -19,7 +19,7 @@
   <!-- Starting page -->
   <div id="navbar" style="display:none">
     <div class="navcontainer">
-      <div class="nav25">
+      <div class="nav30">
         <button id="quit">
           <svg width="1.1em" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -29,8 +29,11 @@
         </button>
         <div id="screen"></div>
       </div>
-      <div class="nav50">Time:</div>
-      <div class="nav25">
+      <div class="nav40">
+        <div id="Timer" style="display:none"></div>
+        <div id="attempts"></div>
+      </div>
+      <div class="nav30">
         <div id="more">Buttons Remaining:</div>
         <button id="submit">Submit</button>
       </div>
@@ -76,7 +79,7 @@
           </div>
           <div><span style="font-weight: 500; display:block;">Medium:</span>
             <div>
-              Buttons have a minimum response time of 1000ms, maximum begin 2000ms.
+              Buttons have a minimum response time of 1000ms, maximum being 2000ms.
             </div>
           </div>
           <div><span style="font-weight: 500; display:block;">Hard:</span>
@@ -96,9 +99,6 @@
 
       <div id="container">
       </div>
-      <section id="foot">
-        <button id="found">I found one!</button>
-      </section>
     </div>
   </main>
   <script src="MagnoMouse.js"></script>

@@ -6,8 +6,12 @@ const inputButton = document.querySelector("#sbmt");
 const block = document.querySelector("#container");
 const navbar = document.querySelector("#navbar");
 const more = document.querySelector("#more");
+const screen = document.querySelector("#screen");
+const timer = document.querySelector("#Timer");
+const attempts = document.querySelector("#attempts");
 
 let buttons;
+let lives;
 let tot = 0;
 let mode = ""
 const ans = [];
@@ -34,8 +38,41 @@ function Warn() {
     }, 500);
 }
 
-function Timer() {
+function ScreenDisplay() {
+    screen.style.backgroundColor = "green";
+    setTimeout(() => {
+        screen.style.backgroundColor = "gray";
+    }, 500);
+}
 
+
+function Timer() {
+    let time = 3602; //sec
+    const ID = setInterval(()=>{
+        let hr = Math.floor(time/3600);
+        let min = Math.floor((time%3600)/60);
+        let sec = time%60;
+        if(min < 10) min = `0${min}`;
+        if(sec < 10) sec = `0${sec}`;
+        timer.innerText = `Time: ${hr}:${min}:${sec}`;
+        time--;
+        if(time===0){
+            alert("You failed.!!");
+            clearInterval(ID);
+        }
+    },1000);
+}
+
+function createLives(n){
+    for(let i=0;i<n;i++){
+        let life = document.createElement("div");
+        life.classList.add("Life");
+        let img = document.createElement("img");
+        img.src = "life.webp";
+        img.style.width = "50px";
+        life.append(img);
+        attempts.append(life);
+    }
 }
 
 console.log("Script Loaded!");
@@ -50,6 +87,10 @@ function newGame() {
     const len = child.length
     for (let i = 0; i < len; i++) {
         child[0].remove();
+    }
+    const livestot = lives.length
+    for (let i = 0; i < livestot; i++) {
+        lives[0].remove();
     }
     main();
 }
@@ -87,11 +128,11 @@ async function main() {
 
                 btn.onmouseenter = function () {
                     if (mode === "easy")
-                        alert("I am magnetic.");
+                    ScreenDisplay();
                     else {
                         let tl = Math.floor((Math.random() + 1) * 1001);
                         setTimeout(() => {
-                            alert("I am magnetic.");
+                            ScreenDisplay();
                         }, tl);
                     }
                 }
@@ -104,33 +145,49 @@ async function main() {
 
             block.append(div);
         }
+        createLives(5);
     } else {
-        
+        //set timer display to block.
+        // Timer();
     }
-    
+
     more.innerText = "Buttons Remaining: " + ans.length;
 
     //NAVI PART, keep in so that buttons will actually read all the newly generated buttons.
-    buttons = document.querySelectorAll("button");
-    const found = document.querySelector("#found");
+    buttons = document.querySelectorAll("#container button");
     const submit = document.querySelector("#submit");
     const quit = document.querySelector("#quit");
+    lives = attempts.children;
 
-    found.onclick = function () {
-        let num = parseInt(prompt("Enter the button you think is metallic."))
-        let index = ans.indexOf(num);
-        console.log("num", num, "index", index);
-        if (index !== -1) {
-
-            buttons[num].onmouseenter = null;   //only num and not num-1 because of sbmt button at first.
-            console.log("Nullified ability.");
-
-            alert("Congrats, you found a metallic button.");
-            ans.splice(index, 1);
-            more.innerText = "Buttons Remaining: " + ans.length;
-        } else {
-            alert("That button is not metallic.")
-        }
+    for(let i=1;i<=buttons.length;i++){
+        buttons[i-1].addEventListener("click",()=>{
+            if(ans.indexOf(i) != -1){
+                buttons[i-1].style.backgroundColor = "green";
+                buttons[i-1].onmouseenter = null;
+                buttons[i-1].disabled = "true";
+                ans.splice(ans.indexOf(i),1);
+                more.innerText = "Buttons Remaining: " + ans.length;
+            
+                if(ans.length===0){
+                    setTimeout(()=>{
+                        //remove alert make a dark screen with their records and ask to start new game.
+                        alert("You win!");
+                        newGame();
+                    },300);
+                }
+            }else{
+                buttons[i-1].style.backgroundColor = "red";
+                // buttons[i-1].disabled = "true";  //if they click again then skill issue
+                lives[0].remove();
+                if(lives.length === 0){
+                    //GAME LOST.
+                    setTimeout(()=>{
+                        alert("You lose!");
+                        newGame();
+                    },300);
+                }
+            }
+        })
     }
 
     submit.onclick = function () {
@@ -143,7 +200,7 @@ async function main() {
             setTimeout(() => Warn(), 700); //Warn twice to have better effect.
         }
     }
-
+    
     quit.onclick = function () {
         ans.splice(0, ans.length);
         newGame();

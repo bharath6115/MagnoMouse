@@ -127,20 +127,6 @@ button{
     width : 120px;
 }
 
-#foot{
-    display:flex;
-    justify-content: space-evenly;
-    margin-top : 30px;
-    /* border : 3px solid black; */
-    padding : 10px;
-    border-radius: 10px;
-}
-
-#foot button{
-    width : 200px;
-}
-
-
 .container{
     margin-top: 8vh;
     display: flex;
@@ -181,7 +167,7 @@ button{
     align-items: center;
 }
 
-.nav25{
+.nav30{
     width:30%;
     height:100%;
     display:flex;
@@ -190,7 +176,7 @@ button{
     align-items: center;
 }
 
-.nav50{
+.nav40{
     width:40%;
     height:100%;
     display: flex;
@@ -229,6 +215,7 @@ button{
     background-color: #003049;
     color: #FAFAFF;
     font-size: 1.2em;
+    margin-left: 5px;
 }
 
 #quit:hover{
@@ -237,7 +224,23 @@ button{
 }
 
 #screen{
-    width: 20%;
-    height: 100%;
-    background-color: green;
+    width: 35%;
+    height: 5.6vh;
+    background-color: gray;
+    border: 3px solid black;
+    border-radius: 10px;
+}
+
+.Life{
+    padding:0;
+}
+
+#attempts{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 5.6vh;
+    /* background-color: blue; */
 }
