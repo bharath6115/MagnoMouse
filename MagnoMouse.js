@@ -70,7 +70,6 @@ function ScreenDisplay() {
 
 function Timer(tot) {
     if(time === -20) time = tot * 2.1; //sec
-    if (time < 10) time = 10;  //if only 1 button then 2 sec, not enough.
     ID = setInterval(() => {
         let hr = Math.floor(time / 3600);
         let min = Math.floor((time % 3600) / 60);
