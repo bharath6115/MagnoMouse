@@ -17,6 +17,7 @@ const gameStatus = document.querySelector("#gameStatus");
 const retry = document.querySelector("#retry");
 const submit = document.querySelector("#submit");
 const quit = document.querySelector("#quit");
+const pause = document.querySelector("#pause");
 
 
 let buttons;
@@ -24,6 +25,7 @@ let lives;
 let tot = 0;
 let mode = ""
 let ID
+let timeString
 const ans = [];
 
 async function WaitForInput() {
@@ -67,7 +69,8 @@ function Timer(tot) {
         let sec = Math.floor(time % 60);
         if (min < 10) min = `0${min}`;
         if (sec < 10) sec = `0${sec}`;
-        timer.innerText = `Time left: ${hr}:${min}:${sec}`;
+        timeString = `Time left: ${hr}:${min}:${sec}`;
+        timer.innerText = timeString;
         time--;
         if (time <= 0) {
             clearInterval(ID);
@@ -93,7 +96,7 @@ function showCard(status) {
     zaWarudo();
 
     if (status == "win") {
-        gameStatus.innerHTML = 'Congrats! You <span style="color:green; font-weight:500;">found</span> all the magnetic buttons!';
+        gameStatus.innerHTML = `Congrats! You <span style="color:green; font-weight:500;">found</span> all the magnetic buttons!<br><br>${timeString} <br> Lives left: ${lives.length} <br>`;
     } else {
         gameStatus.innerHTML = 'You <span style="color:red; font-weight:500;">failed</span> to find all the magnetic buttons...';
     }
@@ -109,6 +112,7 @@ function newGame() {
     displayTime.style.display = "none"; clearInterval(ID);
     cover.style.display = "none";
     moveUp.style.transform = `translateY(${0}vh)`; //reset the Y displacement to 0.
+    pause.style.display = "none";
 
     //reset input
     form.easy.checked = false; form.med.checked = false; form.hard.checked = false;
@@ -185,9 +189,11 @@ async function main() {
     if (mode !== "hard") createLives(5);
     if (mode === "hard") {
         createLives(3);
+        pause.style.display = "flex";
         displayTime.style.display = "flex";
         Timer(tot);
     }
+
     //buttons are created, get all the buttons in container.
     buttons = document.querySelectorAll("#container button");
     //If no magnetic buttons
@@ -243,15 +249,27 @@ async function main() {
         })
     }
 
-    retry.addEventListener("click", () => newGame());
-    quit.addEventListener("click", () => newGame());
+    retry.onclick = function(){
+        newGame();
+    }
+    quit.onclick = function(){
+        newGame();
+    }
 
     //if the cover is clicked, it will disappear but when the card is clicked the cover will not disappear. to do this use stopPropagation
     card.addEventListener("click",(e)=>{e.stopPropagation()});
-    cover.addEventListener("click",()=>{cover.style.display="none"});
+    cover.onclick = function(){cover.style.display="none"};
+    pause.onclick = function(){
+        // zaWarudo();
+        if(pause.innerText.indexOf("Pause") !== -1)
+            pause.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/></svg> Play'
+        else{
+            pause.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em"  fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16"><path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5m5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5"/></svg>Pause'    
+        }
+    }
 
 
-    submit.addEventListener("click", () => {
+    submit.onclick = function (){
         if (ans.length == 0) {
             //add confetti type
             showCard("win");
@@ -260,7 +278,7 @@ async function main() {
             Warn();
             setTimeout(() => Warn(), 700);
         }
-    })
+    }
 
 }
 

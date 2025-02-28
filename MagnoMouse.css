@@ -142,7 +142,7 @@ button{
 }
 .three{
     width:30%;
-    background-color: #FAFAFF;
+    background-color: #d1dbde81;
     display:flex;
     flex-direction: column;
     justify-content: space-around;
@@ -210,7 +210,7 @@ button{
     justify-content: center;
     align-items: center;
     height:95%;
-    width: 30%;
+    width: 25%;
     transition: 200ms;
     border: 3px solid #003049;
     background-color: #003049;
@@ -222,6 +222,15 @@ button{
 #quit:hover{
     background-color:#FAFAFF;
     color: #003049;
+}
+
+#pause{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95%;
+    font-size: 1.2em;
+    padding:0;
 }
 
 #screen{
@@ -291,7 +300,6 @@ button{
 #card{
     background-color: white;
     width:40%;
-    height: 40%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -299,7 +307,7 @@ button{
     border: 3px solid black;
     border-radius: 10px;
     box-shadow: 5px 5px 3px black;
-    z-index: 10;
+    padding: 2em;
 }
 
 #card button{
@@ -307,6 +315,7 @@ button{
     font-size: 1.8em;
     border: 3px solid #003049;
     transition: 400ms;
+    margin-top: 1em;
 }
 
 #card button:hover{
