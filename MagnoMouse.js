@@ -24,6 +24,7 @@ let buttons;
 let lives;
 let tot = 0;
 let mode = ""
+let time = -20
 let ID
 let timeString
 const ans = [];
@@ -31,12 +32,19 @@ const ans = [];
 async function WaitForInput() {
     return new Promise((resolve, reject) => {
 
-        sbmt.addEventListener("click", () => {
+        inputButton.addEventListener("click", () => {
+
+            
+            form[0].setCustomValidity("");
+            form[1].setCustomValidity("");
+            // setCustomValidity Persistence: When you set a custom validity message on an element using setCustomValidity, the browser remembers that message. Even if the element later becomes valid according to your other checks, the custom validity might still be flagged. Doing this clears any previously set custom validity on both input elements before performing the validation checks. This ensures that we are starting with a clean slate each time the button is clicked.
+
             if (!form[0].value || form[0].value <= 0) {
                 form[0].setCustomValidity("Enter a number greater than 0");
                 form[0].reportValidity();
             } else if (!(form.easy.checked || form.med.checked || form.hard.checked)) {
-
+                form[1].setCustomValidity("Select a difficulty!")
+                form[1].reportValidity();
             } else
                 resolve();
         });
@@ -61,7 +69,7 @@ function ScreenDisplay() {
 
 
 function Timer(tot) {
-    let time = tot * 2.1; //sec
+    if(time === -20) time = tot * 2.1; //sec
     if (time < 10) time = 10;  //if only 1 button then 2 sec, not enough.
     ID = setInterval(() => {
         let hr = Math.floor(time / 3600);
@@ -96,7 +104,11 @@ function showCard(status) {
     zaWarudo();
 
     if (status == "win") {
-        gameStatus.innerHTML = `Congrats! You <span style="color:green; font-weight:500;">found</span> all the magnetic buttons!<br><br>${timeString} <br> Lives left: ${lives.length} <br>`;
+        if(mode==="hard")
+            gameStatus.innerHTML = `Congrats! You <span style="color:green; font-weight:500;">found</span> all the magnetic buttons!<br><br>${timeString} <br> Lives left: ${lives.length} <br>`;
+        else
+            gameStatus.innerHTML = `Congrats! You <span style="color:green; font-weight:500;">found</span> all the magnetic buttons!<br><br> Lives left: ${lives.length} <br>`;
+        
     } else {
         gameStatus.innerHTML = 'You <span style="color:red; font-weight:500;">failed</span> to find all the magnetic buttons...';
     }
@@ -112,7 +124,11 @@ function newGame() {
     displayTime.style.display = "none"; clearInterval(ID);
     cover.style.display = "none";
     moveUp.style.transform = `translateY(${0}vh)`; //reset the Y displacement to 0.
-    pause.style.display = "none";
+    pause.style.display = "none";   
+    if (pause.innerText.indexOf("Pause") === -1){
+        pause.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em"  fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16"><path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5m5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5"/></svg>Pause'
+    }
+    time = -20; //Reset to initial value so that Timer() will properly display time
 
     //reset input
     form.easy.checked = false; form.med.checked = false; form.hard.checked = false;
@@ -138,17 +154,20 @@ function zaWarudo() {
     clearInterval(ID);
 }
 
+function resumeGame(){
+    container.style.pointerEvents = "";
+    Timer();
+}
+
+//NOTE: addEventListener is stackable so keeping it in main function will cause multiple function calls of some functions (lives, etc). However, onclick is not stackable so it is safe to keep in main function.
+form.addEventListener("submit", (e) => { e.preventDefault(); })
+
 async function main() {
 
-    //REMOVE ACTION FOR BUTTON BEFORE HITTING SUBMIT, i.e AFTER LOADING SCRIPT
-    form.addEventListener("submit", (e) => {
-        e.preventDefault();
-    })
     await WaitForInput();
     init.style.display = "none";
     scnd.style.display = "block";
     navbar.style.display = "block";
-
 
     //Get input
     tot = parseInt(form.btncnt.value);
@@ -157,7 +176,6 @@ async function main() {
     else mode = "hard";
 
     //Design for each difficulty:
-
     for (let i = 0; i < tot; i++) {
         const div = document.createElement("div");
         const btn = document.createElement('button');
@@ -240,7 +258,6 @@ async function main() {
                 // buttons[i-1].disabled = "true";  //if they click again then skill issue
                 lives[0].remove();
                 if (lives.length === 0) {
-                    //GAME LOST.
                     setTimeout(() => {
                         showCard("lose");
                     }, 300);
@@ -248,38 +265,32 @@ async function main() {
             }
         })
     }
-
-    retry.onclick = function(){
-        newGame();
-    }
-    quit.onclick = function(){
-        newGame();
-    }
-
-    //if the cover is clicked, it will disappear but when the card is clicked the cover will not disappear. to do this use stopPropagation
-    card.addEventListener("click",(e)=>{e.stopPropagation()});
-    cover.onclick = function(){cover.style.display="none"};
-    pause.onclick = function(){
-        // zaWarudo();
-        if(pause.innerText.indexOf("Pause") !== -1)
-            pause.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/></svg> Play'
-        else{
-            pause.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em"  fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16"><path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5m5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5"/></svg>Pause'    
-        }
-    }
-
-
-    submit.onclick = function (){
-        if (ans.length == 0) {
-            //add confetti type
-            showCard("win");
-        } else {
-            //Warn twice to have better effect.
-            Warn();
-            setTimeout(() => Warn(), 700);
-        }
-    }
-
 }
+
+retry.addEventListener("click", () => { newGame(); })
+quit.addEventListener("click", () => { newGame(); })
+//if the cover is clicked, it will disappear but when the card is clicked the cover will not disappear. to do this use stopPropagation
+card.addEventListener("click", (e) => { e.stopPropagation() });
+cover.addEventListener("click", () => { cover.style.display = "none" });
+pause.addEventListener("click", () => {
+    if (pause.innerText.indexOf("Pause") !== -1){
+        zaWarudo();
+        pause.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/></svg> Play'
+    }else {
+        resumeGame();
+        pause.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em"  fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16"><path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5m5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5"/></svg>Pause'
+    }
+})
+
+submit.addEventListener("click", () => {
+    if (ans.length == 0) {
+        showCard("win");
+    } else {
+        //Warn twice to have better effect.
+        Warn();
+        setTimeout(() => Warn(), 700);
+    }
+})
+
 
 main();
