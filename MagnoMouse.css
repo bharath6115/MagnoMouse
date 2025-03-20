@@ -46,7 +46,13 @@ table {
 
 /*RESET END HERE*/
 
+button{
+    cursor:pointer;
+}
 
+input[type="radio"]{
+    cursor:pointer;
+}
 
 html{
     font-family: roboto, sans-serif;
@@ -274,6 +280,11 @@ button{
     padding:0;
 }
 
+#info{
+    display: flex;
+    align-items: center;
+}
+
 #attempts{
     display: flex;
     flex-direction: row;
@@ -308,9 +319,10 @@ button{
     border-radius: 10px;
     box-shadow: 5px 5px 3px black;
     padding: 2em;
+    position: relative;
 }
 
-#card button{
+#retry{
     width:auto;
     font-size: 1.8em;
     border: 3px solid #003049;
@@ -318,7 +330,7 @@ button{
     margin-top: 1em;
 }
 
-#card button:hover{
+#retry:hover{
     background-color: #FAFAFF;
     color:#003049;
     transform: translateY(-5px);
@@ -328,5 +340,22 @@ button{
 #gameStatus{
     font-size: 2em;
     margin: 10px;
+}
+
+#closeButton{
+    background-color: transparent;
+    font-size: 30px;
+    color:black;
+    border: 0px;
+    padding: 0px;
+    margin: 0px;
+    width: auto;
+    position:absolute;
+    top:15px;
+    right:20px;
+}
+
+#closeButton:hover{
+    color:rgba(255, 0, 0, 0.784);
 }
 

@@ -10,14 +10,18 @@ const screen = document.querySelector("#screen");
 const timer = document.querySelector("#Timer");
 const displayTime = document.querySelector("#displayTime")
 const attempts = document.querySelector("#attempts");
+const moreinfo = document.querySelector("#info svg");
 const moveUp = document.querySelector(".textstyle");
 const cover = document.querySelector("#cover");
 const card = document.querySelector("#card");
+const closeButton = document.querySelector("#closeButton");
 const gameStatus = document.querySelector("#gameStatus");
 const retry = document.querySelector("#retry");
 const submit = document.querySelector("#submit");
 const quit = document.querySelector("#quit");
 const pause = document.querySelector("#pause");
+
+moreinfo.style.cursor = "pointer";
 
 
 let buttons;
@@ -114,6 +118,18 @@ function showCard(status) {
 
 }
 
+function showinfo(){
+    retry.style.display='none';
+    cover.style.display = "flex";
+    if(mode==="easy"){
+        gameStatus.innerHTML = '<div style="font-size:24px;"><span style="font-weight: 500; display:block; margin-bottom:1em;">Easy Mode</span>In this mode, buttons have response time a of 0ms. That is, when you hover over a magnetic button the screen will turn green with a time delay of 0ms.<br> Select all the magnetic buttons to win.<br> You only get <b>Five</b> attempts.</div>';
+    }else if(mode==="med"){
+        gameStatus.innerHTML = '<div style="font-size:24px;"><span style="font-weight: 500; display:block; margin-bottom:1em;">Medium Mode</span>In this mode, buttons have response time anywhere between 1000ms and 2000ms. That is, when you hover over a magnetic button the screen will turn green with a time delay of 1000-2000ms.<br> Select all the magnetic buttons to win.<br> You only get <b>Five</b> attempts.</div>';
+    }else if(mode==="hard"){
+        gameStatus.innerHTML = '<div style="font-size:24px;"><span style="font-weight: 500; display:block; margin-bottom:1em;">Hard Mode</span>In this mode, buttons have response time anywhere between 1000ms and 2000ms. That is, when you hover over a magnetic button the screen will turn green with a time delay of 1000-2000ms.<br> Select all the magnetic buttons to win.<br> You only get <b>Three</b> attempts.</div>';
+    }
+}
+
 function newGame() {
     //reset the visuals
     init.style.display = "block";
@@ -123,7 +139,8 @@ function newGame() {
     displayTime.style.display = "none"; clearInterval(ID);
     cover.style.display = "none";
     moveUp.style.transform = `translateY(${0}vh)`; //reset the Y displacement to 0.
-    pause.style.display = "none";   
+    pause.style.display = "none";
+    pause.disabled='false';
     if (pause.innerText.indexOf("Pause") === -1){
         pause.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em"  fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16"><path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5m5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5"/></svg>Pause'
     }
@@ -131,7 +148,7 @@ function newGame() {
 
     //reset input
     form.easy.checked = false; form.med.checked = false; form.hard.checked = false;
-    form.btncnt.value = 'none';
+    form.btncnt.value = '';
 
     //remove previously added buttons and lives
     const child = block.children;
@@ -248,6 +265,7 @@ async function main() {
                 more.innerText = "Buttons Remaining: " + ans.length;
 
                 if (ans.length === 0) {
+                    pause.disabled='true';  //else if we toggle pause after winning, we get lose message.
                     setTimeout(() => {
                         showCard("win");
                     }, 300);
@@ -257,6 +275,7 @@ async function main() {
                 // buttons[i-1].disabled = "true";  //if they click again then skill issue
                 lives[0].remove();
                 if (lives.length === 0) {
+                    pause.disabled='true';
                     setTimeout(() => {
                         showCard("lose");
                     }, 300);
@@ -266,11 +285,12 @@ async function main() {
     }
 }
 
+closeButton.addEventListener("click",()=>{cover.style.display="none";})
 retry.addEventListener("click", () => { newGame(); })
 quit.addEventListener("click", () => { newGame(); })
 //if the cover is clicked, it will disappear but when the card is clicked the cover will not disappear. to do this use stopPropagation
 card.addEventListener("click", (e) => { e.stopPropagation() });
-cover.addEventListener("click", () => { cover.style.display = "none" });
+cover.addEventListener("click", () => { retry.style.display="block"; cover.style.display = "none" });
 pause.addEventListener("click", () => {
     if (pause.innerText.indexOf("Pause") !== -1){
         zaWarudo();
@@ -280,6 +300,10 @@ pause.addEventListener("click", () => {
         pause.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em"  fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16"><path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5m5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5"/></svg>Pause'
     }
 })
+
+moreinfo.onclick = ()=>{
+    showinfo();
+}
 
 submit.addEventListener("click", () => {
     if (ans.length == 0) {
