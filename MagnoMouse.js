@@ -84,6 +84,7 @@ function Timer(tot) {
         timer.innerText = timeString;
         time--;
         if (time <= 0) {
+            pause.disabled = true;
             clearInterval(ID);
             showCard("lose");
         }
@@ -140,7 +141,7 @@ function newGame() {
     cover.style.display = "none";
     moveUp.style.transform = `translateY(${0}vh)`; //reset the Y displacement to 0.
     pause.style.display = "none";
-    pause.disabled='false';
+    pause.disabled=false;
     if (pause.innerText.indexOf("Pause") === -1){
         pause.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em"  fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16"><path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5m5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5"/></svg>Pause'
     }
