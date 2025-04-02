@@ -1,3 +1,9 @@
+window.onload = function() {
+    if ('ontouchstart' in window) {
+        document.body.innerHTML = "<h2 style='text-align:center; margin-top:20%;'>This game isn't available for mobile rendering, try in a PC/Laptop.</h2>";
+    }
+};
+
 const init = document.querySelector("#init");
 const scnd = document.querySelector("#scnd");
 const radio = document.querySelectorAll('input[name="difficulty"]');
